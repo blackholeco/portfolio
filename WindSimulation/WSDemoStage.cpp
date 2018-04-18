@@ -1,13 +1,13 @@
-/*
- *	WSDemoStage.cpp by Chris Allen
-
- *	This file is provided "as-is", for the sole purpose of a demonstration of my
-	work.  It is not intended to be copied or used in an external or third-party
-	project, and no support will be given for that use.
-
- *	You may not use or copy this file, in whole or in part, to use for your own
-	projects.  All rights reserved over this file.
- */
+//
+//	WSDemoStage.cpp by Chris Allen
+//
+//	This file is provided "as-is", for the sole purpose of a demonstration of my
+//	work.  It is not intended to be copied or used in an external or third-party
+//	project, and no support will be given for that use.
+//
+//	You may not use or copy this file, in whole or in part, to use in your own, or
+//	other projects.  All rights reserved over this file.
+//
 
 #include "WSDemoStage.h"
 
@@ -23,7 +23,7 @@ void WSDemoStage::setupStage()
 
 	createScenes();
 
-	// Create our terrain - Blades in X, Blades in Z, Dimensions of field
+	// Create our terrain - Blades in X, Blades in Y, Dimensions of field, proportion of grass to "cull"
 	createGrass(100, 100, 50, 50, 0.6f);
 
 	// Setup our wind effect
@@ -34,19 +34,23 @@ void WSDemoStage::setupStage()
  *	For each Blade, set up a transformation to apply any variation to
 	the Blade's appearance
 
- *	@param x : Original x position of the blade in our scene
- *	@param y : Original y position of the blade in our scene
-
- *	@return : A Model Transform matrix to transform the blade of grass with
+ *	Randomly adjust the height, rotation and position-offset for each blade
  */
 NovaTransform WSDemoStage::setupBlade(unsigned int x, unsigned int y)
 {
 	NovaTransform ret;
 
-	ret.setScale(1, NovaRandom::randomFloat(0.8, 1.0f), 1)
-		.setRotation(NovaRandom::randomFloat(-55.0f, 55.0f),
-			0, 1, 0)
-		.setPosition(NovaRandom::randomFloat(-0.25f, 0.25), 0, NovaRandom::randomFloat(-0.25f, 0.25));
+	float bHeight = NovaRandom::randomFloat(0.75f, 1.00f);
+
+	ret.setRotation(
+		NovaRandom::randomFloat(-55.0f, 55.0f),
+		0, 1, 0);
+
+	float offset = NovaRandom::randomFloat(-0.25f, 0.25f);
+
+	ret.setPosition(offset, 0, offset);
+
+	ret.setScale(1, bHeight, 1);
 
 	return ret;
 }
@@ -77,3 +81,5 @@ void WSDemoStage::addToScene()
 	// Shows the wind's render target contents
 	wind->addToScene(windSceneTrans, nContext->getMainScene());
 }
+
+

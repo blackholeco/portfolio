@@ -1,3 +1,15 @@
+//
+//	WindSim.cpp by Chris Allen
+//
+//	This file is provided "as-is", for the sole purpose of a demonstration of my
+//	work.  It is not intended to be copied or used in an external or third-party
+//	project, and no support will be given for that use.
+//
+//	You may not use or copy this file, in whole or in part, to use in your own, or
+//	other projects.  All rights reserved over this file.
+//
+
+
 #include "WindSim.h"
 
 
@@ -24,7 +36,7 @@ void WindSimApp::onReshape(int width, int height)
 
 void WindSimApp::run()
 {
-	nContext->setStage(DBG_NEW WSFinalStage);
+	nContext->setStage(DBG_NEW WSDemoStage);
 
 	nContext->getMainScene()->setViewMatrix(
 		NovaMatrixUtil::view(0, 0, 1, 0, 0, 0, 0, 1, 0)

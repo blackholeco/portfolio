@@ -2,11 +2,11 @@
 
 //
 //	WindDemo.glsl by Chris Allen
-
+//
 //	This file is provided "as-is", for the sole purpose of a demonstration of my
 //	work.  It is not intended to be copied or used in an external or third-party
 //	project, and no support will be given for that use.
-
+//
 //	You may not use or copy this file, in whole or in part, to use in your own, or
 //	other projects.  All rights reserved over this file.
 //
@@ -30,6 +30,7 @@ out float delta;
 
 void main()
 {
+	// Set up our screen transformation
 	mat4 mvp = projection * view * model;
 
 	// Take a sample from our vertex dispacement map
@@ -41,7 +42,7 @@ void main()
 	// If sample colour is not transparent
 	if(colour.a > 0.0)
 	{
-	// Alpha value becomes our power
+	// Alpha value becomes our wind power
 		float power = colour.a;
 
 	// Square of the height to give each blade a curve when affected by the wind

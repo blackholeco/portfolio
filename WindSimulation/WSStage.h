@@ -1,5 +1,16 @@
 #pragma once
 
+//
+//	WSStage.h by Chris Allen
+//
+//	This file is provided "as-is", for the sole purpose of a demonstration of my
+//	work.  It is not intended to be copied or used in an external or third-party
+//	project, and no support will be given for that use.
+//
+//	You may not use or copy this file, in whole or in part, to use in your own, or
+//	other projects.  All rights reserved over this file.
+//
+
 #include <NovaStage.h>
 #include <NovaContext.h>
 #include <NovaParticle.h>
@@ -8,6 +19,12 @@
 
 /**
  *	Base class for our Wind Sim Stages
+
+ *	The base Stage contains the field of grass, the wind particle effect, and the rendertargets
+	required by the program.
+
+ *	This class allows for different stages of development, while maintaining
+	code that is shared between each stage
  */
 class WSStage : public NovaStage
 {
