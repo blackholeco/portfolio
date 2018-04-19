@@ -1,12 +1,14 @@
-package com.challenge.coding;
+package com.guildon.watercontainer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
 
 import java.util.Random;
 
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+
 		loadContent();
 		analyse();
 	}
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
 		MenuInflater inflater = getMenuInflater();
 
-		inflater.inflate(R.menu.main, menu);
+		inflater.inflate(R.menu.menu_main, menu);
 
 		return super.onCreateOptionsMenu(menu);
 	}
