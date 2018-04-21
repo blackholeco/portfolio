@@ -23,7 +23,14 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
-	int[] heightmap = null;
+	final int mMaxHeight = 9;
+	final int mMaxWidth = 9;
+
+	int[] mHeightmap = null;
+
+	char[][] mLayout = null;
+
+	WaterContainerView mContainerView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
+
+		mContainerView = findViewById(R.id.containerView);
 
 		loadContent();
 		analyse();
@@ -80,12 +89,13 @@ public class MainActivity extends AppCompatActivity {
 		random.setSeed(System.currentTimeMillis());
 
 		// create the heightmap if necessary
-		if(heightmap == null)
-			heightmap = new int[9];
+		mHeightmap = new int[mMaxWidth];
 
-		// randomly generate the values
-		for(int i = 0; i < heightmap.length; i++)
-			heightmap[i] = random.nextInt(8) + 1;
+		mLayout = new char[mMaxHeight][mMaxWidth];
+
+		// randomly generate the values (between 1 and max height)
+		for(int i = 0; i < mMaxWidth; i++)
+			mHeightmap[i] = random.nextInt(mMaxHeight) + 1;
 
 		// show the configuration
 		showConfig();
@@ -99,40 +109,44 @@ public class MainActivity extends AppCompatActivity {
 
 		StringBuilder config = new StringBuilder("Your configuration is: ");
 
-		for(int i = 0; i < heightmap.length; i++){
-			config.append(String.valueOf(heightmap[i]));
-			if(i < heightmap.length - 1)
+		for(int i = 0; i < mHeightmap.length; i++){
+			config.append(String.valueOf(mHeightmap[i]));
+
+			if(i < mHeightmap.length - 1)
 				config.append(" | ");
 		}
 
 		textview.setText(config.toString());
 
-		StringBuilder configview = new StringBuilder("");
+		for(int height = mMaxHeight; height >= 1; height--){
 
-		for(int iter = 9; iter >= 1; iter--){
-
-			for (int aHeightmap : heightmap) {
-				if (aHeightmap >= iter)
-					configview.append("#");
-				else
-					configview.append("o");
+			for(int j = 0; j < mMaxWidth; j++)
+			{
+				if(mHeightmap[j] >= height)
+					mLayout[mMaxHeight - height][j] = '#';
 			}
-
-			configview.append("\n");
 		}
-
-		TextView configtextview = findViewById(R.id.textConfigView);
-
-		configtextview.setText(configview.toString());
 	}
 
 	/**
 	 * Initial creation of the configuration.
 	 */
 	protected void loadContent(){
-		heightmap = new int[]{		// gives volume of 10
-				2, 5, 1, 2, 3, 4, 7, 7, 6
-		};
+		mHeightmap = new int[mMaxWidth];        // gives volume of 10
+
+		// Set everything to 1 to begin with
+		for(int i = 0; i < mMaxWidth; i++)
+			mHeightmap[i] = 1;
+
+		mHeightmap[0] = 2;
+		mHeightmap[1] = 5;
+		mHeightmap[2] = 1;
+		mHeightmap[3] = 2;
+		mHeightmap[4] = 3;
+		mHeightmap[5] = 4;
+		mHeightmap[6] = 7;
+		mHeightmap[7] = 7;
+		mHeightmap[8] = 6;
 
 		/*heightmap = new int[]{	// gives volume of 3
 				2, 1, 1, 2, 3, 4, 7, 5, 6
@@ -141,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
 		/*heightmap = new int[]{	// should be 15
 				5, 4, 7, 2, 3, 4, 7, 5, 7
 		};*/
+
+		mLayout = new char[mMaxHeight][mMaxWidth];
 
 		showConfig();
 	}
@@ -165,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 		int highest = Integer.MIN_VALUE;
 		int lowest = Integer.MAX_VALUE;
 
-		for (int aHeightmap : heightmap) {
+		for (int aHeightmap : mHeightmap) {
 			if (aHeightmap > highest)
 				highest = aHeightmap;
 			if (aHeightmap < lowest)
@@ -184,42 +200,47 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		// Now we have the highest and lowest, find the volume
-		for(int iter = lowest; iter <= highest; iter++){
+		for(int height = lowest; height <= highest; height++){
 
 			// find an instance of the current height
-			for(int j = 0; j < heightmap.length; j++){
-				if(heightmap[j] == iter){
+			for(int j = 0; j < mMaxWidth; j++){
+				if(mHeightmap[j] == height){
 					// skip this height if it's the same as the last height (avoids filling twice)
-					if(j >= 1 && heightmap[j] != heightmap[j - 1]){
-						Log.d("ANALYSE", "Found an instance of " + String.valueOf(iter) + " at " + String.valueOf(j));
+					if(j >= 1 && mHeightmap[j] != mHeightmap[j - 1]){
+						Log.d("ANALYSE", "Found an instance of " + String.valueOf(height) + " at " + String.valueOf(j));
 
 						// look right for a higher wall
-						for(int right = j + 1; right < heightmap.length; right++){
-							if(heightmap[right] > iter){
+						for(int right = j + 1; right < mMaxWidth; right++){
+							if(mHeightmap[right] > height){
 								Log.d("ANALYSERIGHT", "Found a wall at " + String.valueOf(right));
 
 								// look left for a higher wall
 								for(int left = j - 1; left >= 0; left--){
-									if(heightmap[left] > iter){// fill up between walls at left and right
+									if(mHeightmap[left] > height){// fill up between walls at left and right
 										Log.d("ANALYSELEFT", "Found a wall at " + String.valueOf(left));
 
 										// We need to add to the volume the amount that will fill up to the lowest wall
 										int add;
 
-										Log.d("ANALYSIS", String.valueOf(heightmap[left]) + " to " + String.valueOf(heightmap[right]));
+										Log.d("ANALYSIS", String.valueOf(mHeightmap[left]) + " to " + String.valueOf(mHeightmap[right]));
 
-										if(heightmap[right] < heightmap[left])
-											add = heightmap[right] - iter;
+										if(mHeightmap[right] < mHeightmap[left])
+											add = mHeightmap[right] - height;
 										else
-											add = heightmap[left] - iter;
+											add = mHeightmap[left] - height;
 
 										Log.d("ANALYSIS", "add = " + String.valueOf(add));
+
+										for(int h = height; h < Math.min(mHeightmap[left], mHeightmap[right]); h++) {
+											for (int k = left + 1; k < right; k++)
+												mLayout[(mMaxHeight - 1) - h][k] = 'w';
+										}
 
 										volume += add * ((right - left) - 1);
 										left = 0;	// break the left looking loop
 									}
 								}
-								right = heightmap.length;	// break the right-looking loop
+								right = mMaxWidth;	// break the right-looking loop
 							}
 						}
 					}
@@ -233,5 +254,8 @@ public class MainActivity extends AppCompatActivity {
 		TextView textview = findViewById(R.id.textResult);
 
 		textview.setText("Calculated volume is " + String.valueOf(volume));
+
+		mContainerView.setLayout(mLayout);
+		mContainerView.postInvalidate();
 	}
 }
