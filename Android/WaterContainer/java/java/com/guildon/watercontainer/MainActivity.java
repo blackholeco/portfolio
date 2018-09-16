@@ -182,7 +182,7 @@ public class MainActivity extends Activity {
 
 		// If all walls same size, no water can be stored
 		if (highest == lowest) {
-			textVolume.setText("Calculated volume is 0");
+			textVolume.setText(String.format(Locale.UK, getString(R.string.volume), 0));
 
 			return;
 		}
@@ -218,7 +218,7 @@ public class MainActivity extends Activity {
 		}
 
 		// report the final volume
-		textVolume.setText(String.format(Locale.UK, "Calculated volume is %d", volume));
+		textVolume.setText(String.format(Locale.UK, getString(R.string.volume), volume));
 
 		mContainerView.setLayout(layout, maxWidth, maxHeight);
 		mContainerView.postInvalidate();

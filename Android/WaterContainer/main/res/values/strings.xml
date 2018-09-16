@@ -1,0 +1,4 @@
+<resources>
+	<string name="app_name">Water Container</string>
+	<string name="volume">Calculated volume is %d</string>
+</resources>

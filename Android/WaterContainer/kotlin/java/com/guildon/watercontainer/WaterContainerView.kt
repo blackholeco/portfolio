@@ -92,6 +92,4 @@ class WaterContainerView(context: Context, attrs: AttributeSet) : View(context, 
 		for (i in 0 until layoutWidth)
 			canvas.drawLine(i * cellSize, 0.0f, i * cellSize, layoutHeight * cellSize, linePaint)
 	}
-
-
 }

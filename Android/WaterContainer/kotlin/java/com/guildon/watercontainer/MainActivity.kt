@@ -81,16 +81,13 @@ class MainActivity : Activity() {
 
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
-		val inflater = menuInflater
-
-		inflater.inflate(R.menu.menu_main, menu)
+		menuInflater.inflate(R.menu.menu_main, menu)
 
 		return super.onCreateOptionsMenu(menu)
 	}
 
 
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
 		if (item != null) { // Check to prevent warning about item being null
 
 			when (item.itemId) {
@@ -114,9 +111,8 @@ class MainActivity : Activity() {
 
 		// Mark the parts of the structure where the walls would be
 		for (i in 0 until maxWidth) {
-			for (h in 1..heightmap[i]) {
+			for (h in 1..heightmap[i])
 				layout[((h - 1) * maxWidth) + i] = '#'
-			}
 		}
 	}
 
@@ -160,7 +156,6 @@ class MainActivity : Activity() {
 	 * Repeat until the highest wall is analysed, then report the final volume
 	 */
 	private fun analyse() {
-
 		// Also measuring the volume of water stored
 		var volume = 0
 
@@ -181,7 +176,7 @@ class MainActivity : Activity() {
 
 		// If all walls same size, no water can be stored
 		if (highest == lowest) {
-			textVolume.text = "Calculated volume is 0"
+			textVolume.text = String.format(Locale.UK, getString(R.string.volume), 0)
 
 			return
 		}
@@ -205,7 +200,7 @@ class MainActivity : Activity() {
 						val left = search(j, height, -1)
 						val right = search(j, height, 1)
 
-						// If higher walls found, fill space between walls, and add to total volumne
+						// If higher walls found, fill space between walls, and add to total volume
 						if (left >= 0 && right >= 0) {
 							val add = Math.min(heightmap[left], heightmap[right]) - height
 
@@ -219,9 +214,7 @@ class MainActivity : Activity() {
 		}
 
 		// report the final volume
-		textVolume.text = "Calculated volume is $volume"
-
-		containerView.setLayout(layout, maxWidth, maxHeight)
+		textVolume.text = String.format(Locale.UK, getString(R.string.volume), volume)
 		containerView.postInvalidate()
 	}
 
@@ -234,9 +227,8 @@ class MainActivity : Activity() {
 	 */
 	private fun fill(left: Int, right: Int, height: Int) {
 		for (h in height until Math.min(heightmap[left], heightmap[right])) {
-			for (i in left + 1 until right) {
+			for (i in left + 1 until right)
 				layout[(h * maxWidth) + i] = 'w'
-			}
 		}
 	}
 
@@ -280,4 +272,3 @@ class MainActivity : Activity() {
 		}
 	}
 }
-
