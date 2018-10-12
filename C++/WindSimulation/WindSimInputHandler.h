@@ -1,11 +1,9 @@
-//
-// Created by Chris Allen
-//
-// Committed at $Rev$ on $Date$
-//
+#pragma once
+
+#include <NovaInput.h>
 
 /*
- *		WindSim.h
+ *		WindSimInputHandler.h
  *
  *	Author: Chris Allen
  *	Copyright Chris Allen 2018, all rights reserved
@@ -20,21 +18,11 @@
  *	This file is provided as-is.  No support will be provided for editing or using this file beyond its original intention.
  */
 
-#pragma once
-
-#include <NovaGLFWApp.h>
-
-#include "WSFinalScene.h"
-
-namespace WindSim::Windows
+namespace WindSim
 {
-
-	class App : public Nova::GL::GLFWApp
+	class InputHandler
 	{
 	public:
-		App(int argc, char** argv);
-
-	protected:
-		void onStart();
+		virtual int handle(Nova::Input_p event) = 0;
 	};
 }

@@ -1,48 +1,53 @@
 //
-//	WindSim.cpp by Chris Allen
+// Created by Chris Allen
 //
-//	This file is provided "as-is", for the sole purpose of a demonstration of my
-//	work.  It is not intended to be copied or used in an external or third-party
-//	project, and no support will be given for that use.
-//
-//	You may not use or copy this file, in whole or in part, to use in your own, or
-//	other projects.  All rights reserved over this file.
+// Committed at $Rev$ on $Date$
 //
 
+/*
+ *		WindSim.cpp
+ *
+ *	Author: Chris Allen
+ *	Copyright Chris Allen 2018, all rights reserved
+ *
+ *	This file forms part of the Wind Simulation Project.
+ *	It is intended to form part of my portfolio, for demonstration purposes ONLY.
+ *
+ *	You may NOT edit/alter this file in any way.
+ *	You may NOT make any copies of this file for purposes other than its original intention (i.e. for demonstration purposes).
+ *	You may NOT use or claim this file as your own work, either partially or wholly
+ *
+ *	This file is provided as-is.  No support will be provided for editing or using this file beyond its original intention.
+ */
 
 #include "WindSim.h"
 
+using Nova::Colour;
+using Nova::Math::MatrixUtil;
 
-WindSimApp::WindSimApp(int argc, char** argv, string title)
+using std::string;
+
+namespace WindSim::Windows
 {
-	initialize(argc, argv, title);
-
-	nContext->getMainScene()->setBaseColour(NovaColour::BLACK);
-}
-
-
-void WindSimApp::onReshape(int width, int height)
-{
-	const float hWidth = static_cast<float>(width) / 2.0f;
-	const float hHeight = static_cast<float>(height) / 2.0f;
-
-	nContext->getMainScene()->resize(width, height);
-
-	nContext->getMainScene()->setProjectionMatrix(
-		NovaMatrixUtil::ortho(-hWidth, hWidth, -hHeight, hHeight, 1, 2)
-	);
-}
+	App::App(int argc, char** argv)
+	{
+		setup(argc, argv);
+	}
 
 
-void WindSimApp::run()
-{
-	nContext->setStage(DBG_NEW WSDemoStage);
+	void App::onStart()
+	{
+		const float rads = 90.0f * static_cast<float>(M_PI) / 180.0f;
 
-	nContext->getMainScene()->setViewMatrix(
-		NovaMatrixUtil::view(0, 0, 1, 0, 0, 0, 0, 1, 0)
-	);
-
-	nContext->setupScene();
+		getStage()->setViewMatrix(
+			MatrixUtil::view
+			(
+				50.0f * cosf(rads), 25,
+				50.0f * sinf(rads),
+				0, 0, 0,
+				0, 1, 0))
+			.setBaseColour(Nova::Colour::BLACK);
+	}
 }
 
 
@@ -50,8 +55,15 @@ int main(int argc, char** argv)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	NovaWindowsApp::open(DBG_NEW WindSimApp(argc, argv, "Wind Sim by Chris Allen - Developed with Nova"));
+	Nova::App::WindowSettings settings;
+
+	settings.width = 1280;
+	settings.height = 800;
+	settings.title = "Wind Sim by Chris Allen - Powered by Nova";
+
+	Nova::App::open(DBG_NEW WindSim::Windows::App(argc, argv), DBG_NEW WindSim::FinalScene(), settings);
+
+	Nova::App::start();
 
 	return 0;
 }
-
