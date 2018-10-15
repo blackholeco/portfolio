@@ -1,12 +1,10 @@
-//
-// Created by Chris Allen
-//
-
 /*
  *		WSScene.cpp
  *
  *	Author: Chris Allen
  *	Copyright Chris Allen 2018, all rights reserved
+ *
+ *	Committed at $Rev: 10 $ on $Date: 2018-10-15 21:13:31 +0100 (Mon, 15 Oct 2018) $
  *
  *	This file forms part of the Wind Simulation Project.
  *	It is intended to form part of my portfolio, for demonstration purposes ONLY.
@@ -44,9 +42,10 @@ namespace WindSim
 
 		shaderFile = "wind.glsl";
 
-		framerateText.getText().setColour(Colour::WHITE);
-		framerateText.getText().setFontSize(25);
-		framerateText.setPosition(0.45f, 0.9f, 0);
+		framerateText.getText().setColour(Colour::WHITE)
+			.setFontSize(16)
+			.setOrigin(0.5f, 1.0f);
+		framerateText.setPosition(0.5f, 0.95f, 0);
 		framerateText.setFrequency(5000);
 	}
 
@@ -93,7 +92,8 @@ namespace WindSim
 			+ std::to_string(static_cast<int>((power + 0.1f) * 100)))
 			.setFontSize(25)
 			.setColour(Nova::Colour::WHITE)
-			.getTransform().setPosition(0.05f, 0.95f, 0);
+			.setOrigin(0.0f, 1.0f);
+		textPower.getTransform().setPosition(0.05f, 0.95f, 0);
 
 		mainStage->getUI()->add(&textPower);
 	}

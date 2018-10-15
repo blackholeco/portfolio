@@ -1,14 +1,11 @@
-//
-//	Created by Chris Allen on 29-July-18
-//
-// Committed at $Rev$ on $Date$
-//
-
 /*
  *		WindSimWindowsInputHandler.cpp
  *
  *	Author: Chris Allen
+ *	Date: 29-July-18
  *	Copyright Chris Allen 2018, all rights reserved
+ *
+ *	Committed at $Rev: 10 $ on $Date: 2018-10-15 21:13:31 +0100 (Mon, 15 Oct 2018) $
  *
  *	This file forms part of the Wind Simulation Project.
  *	It is intended to form part of my portfolio, for demonstration purposes ONLY.
