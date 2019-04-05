@@ -94,6 +94,29 @@ namespace WindSim
 
 		mainStage->getUI()->add(&textPower);
 
+
+		Nova::TextWidget* tName = DBG_NEW Nova::TextWidget();
+
+		tName->setText("Wind Simulation by Chris Allen")
+			.setColour(Nova::Colour::WHITE)
+			.setFontSize(16);
+		tName->getTransform().setPosition(0.05f, 0.05f, 0);
+
+		mainStage->getUI()->add(tName);
+
+#if !defined(NOVA_ANDROID)
+		Nova::TextWidget* tExit = DBG_NEW Nova::TextWidget();
+
+		tExit->setText("Press Escape to close")
+			.setFontSize(16)
+			.setColour(Nova::Colour::WHITE)
+			.setAlignment(Nova::Alignment::RIGHT)
+			.setOrigin(1.0f, 0);
+		tExit->getTransform().setPosition(0.95f, 0.05f, 0);
+
+		mainStage->getUI()->add(tExit);
+#endif
+
 		windEffect.setImage(wind->getRenderTexture(), 450, 450);
 		windEffect.getTransform().setPosition(1.0f, 1.0f, 0);
 		windEffect.setOrigin(1.0f, 1.0f);

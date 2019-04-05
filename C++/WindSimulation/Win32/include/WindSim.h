@@ -18,20 +18,33 @@
 
 #pragma once
 
-//#include <NovaGLFWApp.h>
-#include <SDLApp.h>
+#include <NovaGLFWApp.h>
 
 #include "WSFinalScene.h"
 
 namespace WindSim::Windows
 {
 
-	class App : public Nova::SDL::App
+	/**
+	 *	Application class for the Wind Simulation project for Windows
+	 */
+	class App : public Nova::GL::GLFWApp
 	{
 	public:
+
+		/**
+		 *	Construct a new instance of the App - Should only be one per program instance
+		 *
+		 *	@param argc: Number of arguments passed to the command line
+		 *	@param argv: List of command line arguments passed into the program
+		 */
 		App(int argc, char** argv);
 
 	protected:
+
+		/**
+		 *	Action to take when the App starts up.  Sets up the initial view matrix of the stage
+		 */
 		void onStart();
 	};
 }

@@ -93,7 +93,9 @@ namespace WindSim
 		 */
 		Nova::SubStage_p wind;
 
-
+		/**
+		 * Widget which shows the current state of the offscreen render target.
+		 */
 		Nova::ImageWidget windEffect;
 
 		/**
@@ -101,9 +103,10 @@ namespace WindSim
 		 */
 		Nova::Package mPackage;
 
-
+		/**
+		 *	Sprite which overlays the grass, and shows the wind's particle effect
+		 */
 		std::shared_ptr<Nova::SimpleActor> windOverlay;
-
 
 		/**
 		 * Particle emitter for the wind effect.  Particles emitted from a ParticleGun
@@ -137,7 +140,11 @@ namespace WindSim
 		 */
 		float power;
 
-
+		/**
+		 *	Change/delta in wind power for the next frame.  Values are 0 for no change,
+		 * 1 for positive change (increased wind power), -1 for negative change 
+		 * (decreased wind power)
+		 */
 		float dPower;
 
 		/**
