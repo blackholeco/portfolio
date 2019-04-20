@@ -201,13 +201,8 @@ class MainActivity : Activity() {
 						val right = search(j, height, 1)
 
 						// If higher walls found, fill space between walls, and add to total volume
-						if (left >= 0 && right >= 0) {
-							val add = Math.min(heightmap[left], heightmap[right]) - height
-
-							fill(left, right, height)
-
-							volume += add * ((right - left) - 1)
-						}
+						if (left >= 0 && right >= 0)
+							volume += fill(left, right, height)
 					}
 				}
 			}
@@ -225,11 +220,20 @@ class MainActivity : Activity() {
 	 * @param right : Right hand wall column index (0-indexed)
 	 * @param height : height to fill the water up to
 	 */
-	private fun fill(left: Int, right: Int, height: Int) {
+	private fun fill(left: Int, right: Int, height: Int) : Int{
+		var ret = 0
+
 		for (h in height until Math.min(heightmap[left], heightmap[right])) {
-			for (i in left + 1 until right)
-				layout[(h * maxWidth) + i] = 'w'
+			for (i in left + 1 until right) {
+
+				if(layout[(h * maxWidth) + i] != 'w') {
+					layout[(h * maxWidth) + i] = 'w'
+					ret++
+				}
+			}
 		}
+
+		return ret
 	}
 
 	/**

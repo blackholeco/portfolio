@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.Locale;
 import java.util.Random;
@@ -69,7 +70,7 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.activity_main);
 
-		setActionBar(findViewById(R.id.toolbar));
+		setActionBar((Toolbar) findViewById(R.id.toolbar));
 
 		heightmap = new int[]{
 				2, 5, 1, 2, 3, 4, 7, 7, 6
@@ -145,7 +146,7 @@ public class MainActivity extends Activity {
 		StringBuilder config = new StringBuilder("Your Configuration is: ");
 
 		for (int aHeightmap : heightmap)
-			config.append(String.valueOf(aHeightmap)).append("    ");
+			config.append(aHeightmap).append("    ");
 
 		textConfig.setText(config.toString());
 	}
@@ -205,13 +206,8 @@ public class MainActivity extends Activity {
 						int left = search(j, height, -1);
 						int right = search(j, height, 1);
 
-						if (left >= 0 && right >= 0) {
-							int add = Math.min(heightmap[left], heightmap[right]) - height;
-
-							fill(left, right, height);
-
-							volume += add * ((right - left) - 1);
-						}
+						if (left >= 0 && right >= 0)
+							volume += fill(left, right, height);
 					}
 				}
 			}
@@ -231,11 +227,21 @@ public class MainActivity extends Activity {
 	 * @param right  : Right hand wall column index (0-indexed)
 	 * @param height : height to fill the water up to
 	 */
-	private void fill(int left, int right, int height) {
+	private int fill(int left, int right, int height) {
+		int ret = 0;
+
 		for (int h = height; h < Math.min(heightmap[left], heightmap[right]); h++) {
 			for (int i = left + 1; i < right; i++)
-				layout[(h * maxWidth) + i] = 'w';
+			{
+				if(layout[(h * maxWidth) + i] != 'w')
+				{
+					layout[(h * maxWidth) + i] = 'w';
+					ret++;
+				}
+			}
 		}
+
+		return ret;
 	}
 
 	/**
