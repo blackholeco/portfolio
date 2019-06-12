@@ -1,0 +1,22 @@
+With My Shadow - Contents
+
+This is the current release of With My Shadow.
+
+NOTE:  This is an early release, intended for demo purposes only.  It it still intended to be a part of my portfolio, rather than anything that could be considered commercial.
+
+Included in this directory are two ZIP files, which allow you to choose the release that matches your needs.  Both contain the same program, but handle it differently on your machine
+
+Installer: Provides a setup and installer program to install the project's files on your machine.
+ZIP:  Contains the files needed to run the project bundled together in a zip file, rather than an installer.
+
+If you are happy to install the project on your machine, download the Installer file, unzip it, and run the Setup program inside.
+
+Otherwise, if you want to try the program without installing, download ZIP, unzip it, and run the WithMyShadow executable file.
+
+You don't need to download both zip files, just the one that matches your needs.
+
+Please read the README file contained within the project files for more inforation about the project, and how to play.
+
+Any questions, comments, or issues, feel free to get in contact with me.
+
+Thanks.
